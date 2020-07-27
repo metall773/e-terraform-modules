@@ -3,21 +3,17 @@ locals {
   share_name       = azurerm_storage_share.myfileshare.name
   share_login      = azurerm_storage_account.mystorageaccount-files.name
   share_pass       = azurerm_storage_account.mystorageaccount-files.primary_access_key
-  share_disk_host  = var.shared_disk_storage_account.primary_file_host
-  share_disk_name  = var.shared_disk_name
-  share_disk_login = var.shared_disk_storage_account.name
-  share_disk_pass  = var.shared_disk_storage_account.primary_access_key
 
- init_params = join("", [
-  "-share_host  ${local.share_host}  ",
-  "-share_name  ${local.share_name}  ",
-  "-share_login ${local.share_login} ",
-  "-share_pass  ${local.share_pass}  ",
-  "-share_disk_host  ${local.share_disk_host}  ",
-  "-share_disk_name  ${local.share_disk_name}  ",
-  "-share_disk_login ${local.share_disk_login} ",
-  "-share_disk_pass  ${local.share_disk_pass}  ",
-  "-choco_list '${var.choco_list}'"
+  init_params = join("", [
+    "-share_host  ${local.share_host}  ",
+    "-share_name  ${local.share_name}  ",
+    "-share_login ${local.share_login} ",
+    "-share_pass  ${local.share_pass}  ",
+    "-share_disk_host  ${var.shared_disk_storage_account.primary_file_host} ",
+    "-share_disk_name  ${var.shared_disk_name} ",
+    "-share_disk_login ${var.shared_disk_storage_account.name} ",
+    "-share_disk_pass  ${var.shared_disk_storage_account.primary_access_key} ",
+    "-choco_list '${var.choco_list}'"
   ])
 
 }
