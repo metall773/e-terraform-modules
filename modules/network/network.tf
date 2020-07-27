@@ -2,7 +2,7 @@
 resource "azurerm_virtual_network" "network-vnet" {
     name                = "${var.environment}-vnet"
     address_space       = [var.network-vnet-cidr]
-    resource_group_name = var.resource_group
+    resource_group_name = var.resource_group.name
     location            = var.resource_group.location
     tags = {
         application = var.app_name
