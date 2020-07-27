@@ -1,7 +1,7 @@
 resource "random_id" "randomId-share4all" {
   keepers = {
     # Generate a new ID only when a new resource group is defined
-    resource_group = var.resource_group
+    resource_group = var.resource_group.name
   }
 
   byte_length = 8
