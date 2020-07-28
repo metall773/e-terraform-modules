@@ -14,12 +14,6 @@ resource "azurerm_resource_group" "myterraformgroup" {
   }
 }
 
-# Create (and display) an SSH key
-resource "tls_private_key" "example_ssh" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "myterraformvm" {
   name                  = local.vm_name
@@ -45,11 +39,6 @@ resource "azurerm_linux_virtual_machine" "myterraformvm" {
   admin_username                  = var.web-linux-admin-username
   disable_password_authentication = true
   custom_data                     = base64encode(data.template_file.linux-vm-cloud-init.rendered)
-
-  admin_ssh_key {
-    username   = var.web-linux-admin-username
-    public_key = tls_private_key.example_ssh.public_key_openssh
-  }
 
   boot_diagnostics {
     storage_account_uri = azurerm_storage_account.mystorageaccount.primary_blob_endpoint
