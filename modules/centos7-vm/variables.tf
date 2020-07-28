@@ -16,6 +16,7 @@ variable "location" {
 variable "app_name" {
     type        = string
     description = "The role of vm, used for tags"
+    default     = "default app" 
 }
 
 # Azure virtual machine settings #
