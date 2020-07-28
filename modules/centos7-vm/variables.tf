@@ -15,6 +15,7 @@ variable "location" {
 # application name 
 variable "app_name" {
     type        = string
+    description = "The role of vm, used for tags"
 }
 
 # Azure virtual machine settings #
@@ -80,6 +81,8 @@ variable "managed_disk_mount_point" {
 }
 
 variable "web-linux-vm-prefix" {
+    type        = string
+    description = "Prefix of vm, used as part of the name of vm. Must be uniq for envirment"
     default = "example"
 }
 
@@ -104,6 +107,7 @@ variable "azurerm_storage_share_quota" {
 
 variable "network-subnet" {
     type        = string
+    description = "Azure network subnet for vm"
 }
 
 variable "install_bitrix" {
@@ -137,14 +141,16 @@ variable "firewall_udp_ports" {
 }
 
 variable "enable_extenalIP" {
-    description = "If set to true, add external IP"
     type        = bool
+    description = "If set to true, add external IP"
     default     = true
 }
 
 variable "shared_disk_storage_account" {
+    description = "Shared  beetween vm disk storage account name"
 }
 
 variable "shared_disk_name" {
     type        = string
+    description = "Shared beetween vm disk name"
 }
