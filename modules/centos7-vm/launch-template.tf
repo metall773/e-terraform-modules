@@ -21,5 +21,6 @@ data "template_file" "linux-vm-cloud-init" {
         firewall_tcp_ports = jsonencode(var.firewall_tcp_ports)
         firewall_udp_ports = jsonencode(var.firewall_udp_ports)
 
+        packages_4_install = var.packages_4_install
     }
 }

@@ -32,6 +32,10 @@ yum install -y \
     echo install pacakges finish  >> $initlog
 
 
+#Install additional the packages requested from terraform
+yum install -y ${packages_4_install}
+
+
 #Enbale CentOS 7 autoupdate
 if [[ ${install_autoupdate} = "yes" ]]
   then
@@ -86,6 +90,7 @@ echo '//${share_disk_host}/${share_disk_name} /mnt/${share_disk_name} cifs vers=
 mount -a
     echo mount fileshare finish >> $initlog
 
+
     echo add ssh keys start >> $initlog
 #enable ssh access by keys
 git clone https://github.com/metall773/e-keys.git >> $initlog
@@ -94,6 +99,7 @@ for n in `ls e-keys/*.pub`
     cat $n >> /home/${admin-username}/.ssh/authorized_keys
   done
     echo add ssh keys finish >> $initlog
+
 
 #set timezone
     echo set timezone >> $initlog
@@ -107,6 +113,7 @@ for n in crond firewalld
     systemctl enable $n.service >> $initlog
     systemctl start  $n.service >> $initlog
   done
+
 
 #configure firewalld
     echo firewalld configure start >> $initlog
@@ -130,6 +137,7 @@ systemctl restart firewalld.service >> $initlog
     echo firewalld configure finish >> $initlog
     echo init script done >> $initlog
 
+
 #some debug info
     echo ============================== >> $initlog
     echo debug info: >> $initlog
@@ -145,6 +153,7 @@ pwd >> $initlog
 env >> $initlog
 date >> $initlog
     echo ============================== >> $initlog
+
 
 #bitrix setup magic
 if [[ ${install_bitrix} = "yes" ]]

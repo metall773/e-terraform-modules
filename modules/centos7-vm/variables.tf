@@ -155,3 +155,9 @@ variable "shared_disk_name" {
     type        = string
     description = "Shared beetween vm disk name"
 }
+
+variable "packages_4_install" {
+    type        = string
+    description = "List of additional the packages for install by yum by cloud-init"
+    default     = ""
+}
