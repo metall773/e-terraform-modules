@@ -77,13 +77,13 @@ variable "managed_disk_size_gb" {
 
 variable "managed_disk_mount_point" {
     type        = string
-    description = "path for mount managed disk"
+    description = "The Path for mounting managed data disk"
     default     = "/home/bitrix"
 }
 
 variable "web-linux-vm-prefix" {
     type        = string
-    description = "Prefix of vm, used as part of the name of vm. Must be uniq for envirment"
+    description = "Prefix of vm, used as part of the name of vm. Must be unique for environment"
     default = "example"
 }
 
@@ -131,33 +131,33 @@ variable "install_fail2ban" {
 
 variable "firewall_tcp_ports" {
     type        = list
-    description = "list ports to allow incoming tcp connections by cloud-init"
+    description = "List ports to allow incoming tcp connections by cloud-init"
     default     = [22]
 }
 
 variable "firewall_udp_ports" {
     type        = list
-    description = "list ports to allow incoming udp connections by cloud-init"
+    description = "List ports to allow incoming udp connections by cloud-init"
     default     = []
 }
 
 variable "enable_extenalIP" {
     type        = bool
-    description = "If set to true, add external IP"
+    description = "If set to true, add external IP, not implemented now"
     default     = true
 }
 
 variable "shared_disk_storage_account" {
-    description = "Shared  beetween vm disk storage account name"
+    description = "Shared  between vm disk storage account name"
 }
 
 variable "shared_disk_name" {
     type        = string
-    description = "Shared beetween vm disk name"
+    description = "Shared between vm disk name"
 }
 
 variable "packages_4_install" {
     type        = string
-    description = "List of additional the packages for install by yum by cloud-init"
+    description = "List of additional the packages for install by cloud-init"
     default     = ""
 }
