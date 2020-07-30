@@ -117,6 +117,12 @@ variable "install_bitrix" {
     default     = "yes"
 }
 
+variable "install_bitrix_crm" {
+    type        = string
+    description = "Install bitrix by cloud-init"
+    default     = "no"
+}
+
 variable "install_autoupdate" {
     type        = string
     description = "Install autoupdate by cloud-init"
