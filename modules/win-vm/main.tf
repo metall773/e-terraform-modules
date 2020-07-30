@@ -1,5 +1,5 @@
 locals {
-  vm_name = "${var.environment}-${var.win-vm-prefix}-vm"
+  vm_name = "${var.environment}-vm-${var.win-vm-prefix}"
 }
 
 resource "azurerm_resource_group" "win-terraform-group" {

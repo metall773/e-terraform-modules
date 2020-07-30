@@ -1,5 +1,5 @@
 locals {
-  vm_name = "${var.environment}-${var.web-linux-vm-prefix}-vm"
+  vm_name = "${var.environment}-vm-${var.web-linux-vm-prefix}"
 }
 
 # Create a resource group if it doesn't exist
