@@ -13,6 +13,7 @@ data "template_file" "linux-vm-cloud-init" {
         share_disk_pass  = var.shared_disk_storage_account.primary_access_key
 
         install_bitrix     = var.install_bitrix
+        install_bitrix_crm = var.install_bitrix_crm
         install_fail2ban   = var.install_fail2ban
         install_autoupdate = var.install_autoupdate
         admin-username     = var.web-linux-admin-username
