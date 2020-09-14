@@ -217,6 +217,7 @@ if [[ ${install_bitrix_crm} = "yes" ]]
     mkdir -p /home/bitrix/.ssh
     cp /home/${admin-username}/.ssh/authorized_keys /home/bitrix/.ssh/authorized_keys
     chmod 600 /home/bitrix/.ssh/authorized_keys
+    chown bitrix:bitrix /home/bitrix/.ssh/authorized_keys
     
     #need to restore bitrix home directory the default SElinux context
     restorecon -v -R /home/bitrix >> $initlog
