@@ -156,6 +156,56 @@ date >> $initlog
     echo ============================== >> $initlog
 
 
+#bitrix setup magic
+if [[ ${install_bitrix} = "yes" ]]
+  then
+        echo bitrix setup start >> $initlog
+    useradd -ms /bin/bash bitrix
+    #allow loging by ssh
+    usermod -aG wheel bitrix
+    # add ssh key for bitrix user
+    mkdir -p /home/bitrix/.ssh
+    cp /home/${admin-username}/.ssh/authorized_keys /home/bitrix/.ssh/authorized_keys
+    chmod 600 /home/bitrix/.ssh/authorized_keys
+    chown bitrix:bitrix /home/bitrix/.ssh/authorized_keys
+
+    #need to restore bitrix home directory the default SElinux context
+    restorecon -v -R /home/bitrix >> $initlog
+    # selinux allow 8888 for httpd
+    semanage port -a -t http_port_t -p tcp 8888 >> $initlog
+    #disable selinux
+    seconfigs="/etc/selinux/config /etc/sysconfig/selinux"
+    sed -i "s/SELINUX=\(enforcing\|permissive\)/SELINUX=disabled/" $seconfigs
+    setenforce 0
+    wget http://repos.1c-bitrix.ru/yum/bitrix-env.sh -O /root/bitrix-env.sh >> $initlog
+    chmod +x /root/bitrix-env.sh
+
+        echo bitrix setup preparing done, need reboot >> $initlog
+    cat << EOF > /root/bitrix_install_one_time.sh
+#!/bin/bash
+/root/bitrix-env.sh >> /root/cloudinit-log.txt
+systemctl disable sample.service
+systemctl daemon-reload
+rm -f /etc/systemd/system/sample.service
+EOF
+    chmod +x /root/bitrix_install_one_time.sh
+    cat << EOF > /etc/systemd/system/sample.service
+[Unit]
+Description=Description for sample script goes here
+After=network.target
+[Service]
+Type=simple
+ExecStart=/root/bitrix_install_one_time.sh >> /root/cloudinit-log.txt
+TimeoutStartSec=0
+[Install]
+WantedBy=default.target
+EOF
+    systemctl daemon-reload
+    systemctl enable sample.service
+    systemctl reboot
+fi
+
+
 #bitrix-crm setup magic
 if [[ ${install_bitrix_crm} = "yes" ]]
   then
