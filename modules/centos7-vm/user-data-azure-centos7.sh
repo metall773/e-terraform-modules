@@ -209,7 +209,7 @@ fi
 #bitrix-crm setup magic
 if [[ ${install_bitrix_crm} = "yes" ]]
   then
-        echo bitrix setup start >> $initlog
+        echo bitrix CRM setup start >> $initlog
     useradd -ms /bin/bash bitrix
     #allow loging by ssh
     usermod -aG wheel bitrix
