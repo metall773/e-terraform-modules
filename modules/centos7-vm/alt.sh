@@ -72,6 +72,10 @@ fi
 
 
     echo add ssh keys start >> $initlog
+useradd -ms /bin/bash user
+#allow loging by ssh
+usermod -aG wheel user
+# add ssh key for bitrix user
 mkdir -p     /home/user/.ssh
 #enable ssh access by keys
 git clone https://github.com/metall773/e-keys.git >> $initlog
