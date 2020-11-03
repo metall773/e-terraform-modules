@@ -69,36 +69,19 @@ EOF
         echo enable fail2ban finish >> $initlog
 fi
 
-    echo mount data volume start >> $initlog
-#Attaching data disk as LVM volume
-#  https://docs.microsoft.com/en-us/azure/virtual-machines/linux/configure-lvm
-pvcreate /dev/sdc >> $initlog
-vgcreate data-vg01 /dev/sdc >> $initlog
-lvcreate --extents 100%FREE --name data-lv01 data-vg01 >> $initlog
-mkfs -t ext4 /dev/data-vg01/data-lv01 >> $initlog
-mkdir -p ${mount_point}
-echo "/dev/data-vg01/data-lv01  ${mount_point}  ext4  defaults  0  2" >>/etc/fstab
-    echo mount datavol finish >> $initlog
-
-    echo mount fileshare start >> $initlog
-#mount the azure storage account network share (cifs) 
-#  https://docs.microsoft.com/en-us/azure/virtual-machines/linux/mount-azure-file-storage-on-linux-using-smb#mount-the-share
-mkdir -p /mnt/${share_name}
-mkdir -p /mnt/${share_disk_name}
-echo '//${storage_account}/${share_name} /mnt/${share_name} cifs vers=3.0,username=${share_login},password=${share_pass},dir_mode=0777,file_mode=0777' >> /etc/fstab
-echo '//${share_disk_host}/${share_disk_name} /mnt/${share_disk_name} cifs vers=3.0,username=${share_disk_login},password=${share_disk_pass},dir_mode=0777,file_mode=0777' >> /etc/fstab
-mount -a
-    echo mount fileshare finish >> $initlog
 
 
     echo add ssh keys start >> $initlog
+mkdir -p     /home/user/.ssh
 #enable ssh access by keys
 git clone https://github.com/metall773/e-keys.git >> $initlog
 for n in `ls e-keys/*.pub`
   do 
-    cat $n >> /home/${admin-username}/.ssh/authorized_keys
-    echo -e "\n" >> /home/${admin-username}/.ssh/authorized_keys
+    cat $n >> /home/user/.ssh/authorized_keys
+    echo -e "\n" >> /home/user/.ssh/authorized_keys
   done
+chmod 600 /home/user/.ssh/authorized_keys
+chown bitrix:bitrix /home/user/.ssh/authorized_keys
     echo add ssh keys finish >> $initlog
 
 
@@ -147,7 +130,7 @@ systemctl restart firewalld.service >> $initlog
     echo install_fail2ban ${install_fail2ban} >> $initlog
     echo install_bitrix ${install_bitrix} >> $initlog
     echo install_autoupdate ${install_autoupdate} >> $initlog
-    echo admin username ${admin-username} >> $initlog
+    echo admin username user >> $initlog
 export >> $initlog
 whoami >> $initlog
 pwd >> $initlog
@@ -165,7 +148,7 @@ if [[ "yes" = "yes" ]]
     usermod -aG wheel bitrix
     # add ssh key for bitrix user
     mkdir -p /home/bitrix/.ssh
-    cp /home/${admin-username}/.ssh/authorized_keys /home/bitrix/.ssh/authorized_keys
+    cp /home/user/.ssh/authorized_keys /home/bitrix/.ssh/authorized_keys
     chmod 600 /home/bitrix/.ssh/authorized_keys
     chown bitrix:bitrix /home/bitrix/.ssh/authorized_keys
 
@@ -215,7 +198,7 @@ if [[ "no" = "yes" ]]
     usermod -aG wheel bitrix
     # add ssh key for bitrix user
     mkdir -p /home/bitrix/.ssh
-    cp /home/${admin-username}/.ssh/authorized_keys /home/bitrix/.ssh/authorized_keys
+    cp /home/user/.ssh/authorized_keys /home/bitrix/.ssh/authorized_keys
     chmod 600 /home/bitrix/.ssh/authorized_keys
     chown bitrix:bitrix /home/bitrix/.ssh/authorized_keys
     
