@@ -84,8 +84,10 @@ for n in `ls e-keys/*.pub`
     cat $n >> /home/user/.ssh/authorized_keys
     echo -e "\n" >> /home/user/.ssh/authorized_keys
   done
+
+chmod 700 /home/user -R
 chmod 600 /home/user/.ssh/authorized_keys
-chown bitrix:bitrix /home/user/.ssh/authorized_keys
+chown user:user /home/user -R
     echo add ssh keys finish >> $initlog
 
 
